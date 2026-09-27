@@ -1,1 +1,2 @@
 Django==6.1.1
+django-tailwind-cli==4.8.1
