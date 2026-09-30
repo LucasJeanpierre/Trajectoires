@@ -3,7 +3,12 @@ repos:
     rev: v0.16.9
     hooks:
       - id: ruff
-        args: [--fix]
+        args: [--fix,
+          "--extend-select=E,F,I,DJ",
+          --exclude=*/migrations/*,
+          --line-length=120,
+          --ignore=RUF012
+        ]
       - id: ruff-format
 
   - repo: https://github.com/gitleaks/gitleaks
