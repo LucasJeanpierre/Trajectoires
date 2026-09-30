@@ -1,13 +1,24 @@
 {% load tailwind_cli %}
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Trajectoires{% endblock %}</title>
     {% tailwind_css %}
 </head>
+
 <body class="bg-slate-50 text-slate-900">
+
+    <header class="bg-slate-900 text-slate-100 px-6 py-4 flex items-center justify-between">
+        <p class="font-serif text-lg">Placeholder</p>
+        <nav class="flex gap-4 text-sm">
+            <a href="{% url 'alumni:home' %}" class="hover:text-white">Home</a>
+            <a href="{% url 'alumni:list' %}" class="hover:text-white">Alumni</a>
+        </nav>
+    </header>
     {% block content %}{% endblock %}
 </body>
+
 </html>
