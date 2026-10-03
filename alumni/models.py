@@ -36,6 +36,15 @@ class Alumnus(models.Model):
         blank=True,
         help_text="Temporarily optional: no reference data is seeded yet.",
     )
+    current_focus = models.CharField(
+        max_length=255,
+        blank=True,
+        default="",
+        help_text=(
+            "Short, free-form summary of what they currently study or do, "
+            'e.g. "Software engineer at X, focused on distributed systems".'
+        ),
+    )
 
     class Meta:
         verbose_name = "alumnus"
@@ -44,3 +53,35 @@ class Alumnus(models.Model):
 
     def __str__(self):
         return f"{self.first_name} {self.last_name} ({self.graduation_year})"
+
+    @property
+    def latest_study_stage(self):
+        return self.study_stages.order_by("-start_year", "-order").first()
+
+
+class StudyStage(models.Model):
+    alumnus = models.ForeignKey(
+        Alumnus, on_delete=models.CASCADE, related_name="study_stages"
+    )
+    program = models.CharField(
+        max_length=200,
+        help_text='E.g. "CPGE MPSI", "Erasmus semester", "Engineering degree".',
+    )
+    institution = models.CharField(max_length=200, blank=True)
+    start_year = models.PositiveSmallIntegerField()
+    end_year = models.PositiveSmallIntegerField(
+        null=True, blank=True, help_text="Leave empty if still ongoing."
+    )
+    order = models.PositiveIntegerField(
+        default=0, help_text="Manual ordering for stages sharing the same start year."
+    )
+
+    class Meta:
+        verbose_name = "study stage"
+        verbose_name_plural = "study stages"
+        ordering = ["order", "start_year"]
+
+    def __str__(self):
+        return (
+            f"{self.program} ({self.institution})" if self.institution else self.program
+        )
