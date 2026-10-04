@@ -1,0 +1,34 @@
+{% extends "alumni/base.html" %}
+
+{% block title %}{{ alumnus.first_name }} {{ alumnus.last_name }} - Trajectoires{% endblock %}
+
+{% block content %}
+<main class="max-w-3xl mx-auto px-6 py-16">
+    <a href="{% url 'alumni:list' %}" class="text-sm text-slate-500 hover:text-slate-900">&larr; Back to alumni</a>
+
+    <h1 class="font-serif text-3xl text-slate-900 mt-4">{{ alumnus.first_name }} {{ alumnus.last_name }}</h1>
+    <p class="text-sm text-slate-500 mt-1">
+        Class of {{ alumnus.graduation_year }}{% if alumnus.bac_series %} - {{ alumnus.bac_series.name }}{% endif %}
+    </p>
+
+    {% if alumnus.current_focus %}
+    <p class="text-slate-700 mt-6">{{ alumnus.current_focus }}</p>
+    {% endif %}
+
+    <h2 class="font-serif text-xl text-slate-900 mt-10 mb-4">Study path</h2>
+    <div class="border-t border-slate-200">
+        {% for stage in alumnus.study_stages.all %}
+        <div class="py-4 border-b border-slate-200">
+            <p class="font-serif text-slate-900">
+                {{ stage.program }}{% if stage.institution %} - {{ stage.institution }}{% endif %}
+            </p>
+            <p class="text-sm text-slate-500">
+                {{ stage.start_year }}{% if stage.end_year %} - {{ stage.end_year }}{% else %} - ongoing{% endif %}
+            </p>
+        </div>
+        {% empty %}
+        <p class="py-8 text-slate-500 italic">No study stages have been added yet.</p>
+        {% endfor %}
+    </div>
+</main>
+{% endblock %}

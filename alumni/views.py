@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
 
 from alumni.models import Alumnus
 
@@ -12,3 +12,8 @@ def home(request):
 def alumni_list(request):
     alumni = Alumnus.objects.all()
     return render(request, "alumni/alumni_list.html", {"alumni": alumni})
+
+
+def alumnus_detail(request, pk):
+    alumnus = get_object_or_404(Alumnus.objects.prefetch_related("study_stages"), pk=pk)
+    return render(request, "alumni/alumnus_detail.html", {"alumnus": alumnus})
