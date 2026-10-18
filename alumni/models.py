@@ -25,6 +25,11 @@ class BacSeries(models.Model):
 
 
 class Alumnus(models.Model):
+    class Status(models.TextChoices):
+        PENDING = "pending", "Pending review"
+        APPROVED = "approved", "Approved"
+        REJECTED = "rejected", "Rejected"
+
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
     graduation_year = models.PositiveIntegerField(verbose_name="graduation year")
@@ -44,6 +49,13 @@ class Alumnus(models.Model):
             "Short, free-form summary of what they currently study or do, "
             'e.g. "Software engineer at X, focused on distributed systems".'
         ),
+    )
+
+    status = models.CharField(
+        max_length=10,
+        choices=Status.choices,
+        default=Status.PENDING,
+        help_text="Only approved alumni are visible on the public site.",
     )
 
     class Meta:

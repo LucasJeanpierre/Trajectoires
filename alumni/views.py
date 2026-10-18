@@ -10,10 +10,15 @@ def home(request):
 
 
 def alumni_list(request):
-    alumni = Alumnus.objects.all()
+    alumni = Alumnus.objects.filter(status=Alumnus.Status.APPROVED)
     return render(request, "alumni/alumni_list.html", {"alumni": alumni})
 
 
 def alumnus_detail(request, pk):
-    alumnus = get_object_or_404(Alumnus.objects.prefetch_related("study_stages"), pk=pk)
+    alumnus = get_object_or_404(
+        Alumnus.objects.filter(status=Alumnus.Status.APPROVED).prefetch_related(
+            "study_stages"
+        ),
+        pk=pk,
+    )
     return render(request, "alumni/alumnus_detail.html", {"alumnus": alumnus})

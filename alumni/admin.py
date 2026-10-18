@@ -19,7 +19,13 @@ class StudyStageInline(admin.TabularInline):
 
 @admin.register(Alumnus)
 class AlumnusAdmin(admin.ModelAdmin):
-    list_display = ("first_name", "last_name", "graduation_year", "bac_series")
+    list_display = (
+        "first_name",
+        "last_name",
+        "graduation_year",
+        "bac_series",
+        "status",
+    )
     search_fields = ("first_name", "last_name")
     list_filter = ("graduation_year", "bac_series")
     autocomplete_fields = ("bac_series",)
