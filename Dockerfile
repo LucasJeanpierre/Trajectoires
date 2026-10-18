@@ -12,7 +12,7 @@ COPY . .
 
 RUN mkdir -p assets \
     && python manage.py tailwind build \
-    && python manage.py collectstatic --noinput
+    && DJANGO_DEBUG=False python manage.py collectstatic --noinput
 
 RUN useradd --create-home appuser && chown -R appuser:appuser /app
 USER appuser
