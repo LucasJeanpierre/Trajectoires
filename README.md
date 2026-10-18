@@ -6,7 +6,26 @@ High-school alumni directory — built with Django, Tailwind CSS and HTMX as an 
 
 - Python 3.13+
 
-## Setup
+## Deployment
+Requires Docker with the Compose plugin.
+
+### Deploy the container
+```bash
+cp .env.example .env
+# Edit .env with your own parameters
+
+docker compose up -d
+```
+
+### Prepare the Database & SuperUser
+
+```bash
+docker compose exec trajectoires python manage.py migrate
+docker compose exec trajectoires python manage.py createsuperuser
+```
+
+
+## Development Setup
 
 ```bash
 git clone https://github.com/LucasJeanpierre/Trajectoires.git
